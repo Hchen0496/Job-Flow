@@ -13,7 +13,7 @@ class TabsControl(tk.Frame):
     self.add_Tabs() #Calling in the Function of adding Tabs
     #self.Tabs1() #Calling in the function of the First Tab
     #self.Tabs2() #Calling in the function of the Second Tab
-  
+    
   def add_Tabs(self):
     #We initialize Tab 1 & 2
     self.tabs1 = ttk.Frame(self.tabControl)
@@ -30,7 +30,7 @@ class TabsControl(tk.Frame):
     #self.parent.labelA = ttk.Label(self, text = "This is on Frame One")#self.parent.labelA.grid(column=1, row=1)
     #def Tabs2(self):
     #in-progress  
- 
+
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
     def __init__(self, parent):
