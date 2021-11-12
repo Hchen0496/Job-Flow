@@ -28,13 +28,43 @@ class Tabs(tk.Frame):
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)
   
   def Tabs1(self):
-    self.label = Label(self.tabs1, height = 1, width = 5, text = "Position", _Padding = 0)
+    #DropDown Menu
+    self.Dropdown = OptionMenu(self.tabs1, "master", "Man")
+    self.Dropdown.pack()
+
+    #Company's Name
+    self.label = Label(self.tabs1, height = 1, width = 12, text = "Company's Name", font=("Latha", 10))
     self.textbox = Text(self.tabs1, height = 1, width = 15)
-    self.label.place(x=40,y=10)
-    self.textbox.place(x = 10, y = 40)
+    self.label.place(x=22,y=30)
+    self.textbox.place(x = 10, y = 50)
     
-    #self.parent.labelA = ttk.Label(self, text = "This is on Frame One")#self.parent.labelA.grid(column=1, row=1)
-  
+    #Positions Name Display Box
+    self.label = Label(self.tabs1, height = 1, width = 10, text = "Position Name", font=("Latha", 10))
+    self.textbox = Text(self.tabs1, height = 1, width = 15)
+    self.label.place(x=200,y=30)
+    self.textbox.place(x = 180, y = 50)
+    
+    #Date Applied Display Box
+    self.label = Label(self.tabs1, height = 1, width = 10, text = "Date Applied", font=("Latha", 10))
+    self.textbox = Text(self.tabs1, height = 1, width = 15)
+    self.label.place(x=365,y=30)
+    self.textbox.place(x = 345, y = 50)
+
+    #Job Board
+    self.label = Label(self.tabs1, height = 1, width = 12, text = "Job Board", font=("Latha", 10))
+    self.textbox = Text(self.tabs1, height = 1, width = 15)
+    self.label.place(x=22,y=150)
+    self.textbox.place(x = 10, y = 170)
+
+    #Descriptions Display Box
+    self.label = Label(self.tabs1, height = 1, width = 12, text = "Descriptions Box", font=("Latha", 10))
+    self.textbox = Text(self.tabs1, height = 5, width = 20)
+    self.label.place(x=200,y=150)
+    self.textbox.place(x = 180, y = 170)
+
+    #Others Display Box
+
+
   #def Tabs2(self):
 
   
