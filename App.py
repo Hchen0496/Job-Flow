@@ -1,17 +1,20 @@
-import sys
-sys.path.append("/Styles/Styling.py")
-import tkinter as tk
+from tkinter import *
 from tkinter import ttk #Getting Tabs from this library
-#from Styling import Tab1Style
-#Tabstyler = Styling.Tab1Style()
+#from tkinter.ttk import Style #Using Notebook & styles
+import tkinter as tk
+#from Styles.Styling import Tab1Style
 
-class TabsControl(tk.Frame):
+class Tabs(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
     tk.Frame.__init__(self, self.parent)
     self.tabControl = ttk.Notebook(self.parent) #Initializing Tabs
+    self.style = ttk.Style(self.parent) #initializing the Styling of the Tabs
+    self.style.theme_use('default')
+    self.style.configure('TNotebook.Tab', background="#add8e6")
+    self.style.map("TNotebook", background= [("selected", "red")])
     self.add_Tabs() #Calling in the Function of adding Tabs
-    #self.Tabs1() #Calling in the function of the First Tab
+    self.Tabs1() #Calling in the function of the First Tab
     #self.Tabs2() #Calling in the function of the Second Tab
     
   def add_Tabs(self):
@@ -23,13 +26,18 @@ class TabsControl(tk.Frame):
     self.tabControl.add(self.tabs2, text ="Add New Record")
     #Made sure we pack the parent tab and add arguments of how we want it to appear on windows
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)
-    
+  
   def Tabs1(self):
-    self.TS = Tab1Style(self.parent)
-    self.TS.pack()
+    self.label = Label(self.tabs1, height = 1, width = 5, text = "Position", _Padding = 0)
+    self.textbox = Text(self.tabs1, height = 1, width = 15)
+    self.label.place(x=40,y=10)
+    self.textbox.place(x = 10, y = 40)
+    
     #self.parent.labelA = ttk.Label(self, text = "This is on Frame One")#self.parent.labelA.grid(column=1, row=1)
-    #def Tabs2(self):
-    #in-progress  
+  
+  #def Tabs2(self):
+
+  
 
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
@@ -47,7 +55,7 @@ class MainApplication(tk.Frame):
         #self.config(bg = "#add8e6")
 
     def Widgets(self):
-      self.TabControls = TabsControl(self.parent)
+      self.TabControls = Tabs(self.parent)
       self.TabControls.pack()
 
 #To return the result
@@ -56,3 +64,4 @@ if __name__ == "__main__":
     #App = MainApplication(root)
     MainApplication(root).pack()
     root.mainloop() #Infinite Loop
+

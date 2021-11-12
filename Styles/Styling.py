@@ -8,6 +8,10 @@ class TabStyle(tk.Frame):
     self.style = ttk.Style(self) #initializing the Styling of the Tabs
   
   def Tab1Style(self):
-    self.theme_use('default')
-    self.configure('TNotebook.Tab', background="green3",width=15)
-    self.map("TNotebook", background= [("selected", "green3")])
+    self.style.theme_create( "Tab1", parent="alt", settings={"TNotebook": {"configure": {"tabmargins": [2, 5, 2, 0] } }, 
+            "TNotebook.Tab": { "configure": {"padding": [5, 1], "background": Mysky },
+            "map": {"background": [("selected", Myyellow)], "expand": [("selected", [1, 1, 1, 0])] } } } )
+
+    self.style.theme_use("dummy")
+    self.style.configure('TNotebook.Tab', background="green3",width=15)
+    self.style.map("TNotebook", background= [("selected", "green3")])
