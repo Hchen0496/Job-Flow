@@ -1,8 +1,6 @@
 from tkinter import *
 from tkinter import ttk #Getting Tabs from this library
-#from tkinter.ttk import Style #Using Notebook & styles
 import tkinter as tk
-#from Styles.Styling import Tab1Style
 
 class Tabs(tk.Frame):
   def __init__(self, parent):
@@ -28,27 +26,33 @@ class Tabs(tk.Frame):
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)
   
   def Tabs1(self):
+    self.columnconfigure(0, weight=1)
+    self.columnconfigure(1, weight=3)
     #DropDown Menu
     self.Dropdown = OptionMenu(self.tabs1, "master", "Man")
-    self.Dropdown.pack()
+    self.Dropdown.grid(column=0, row=0, sticky=self.W, padx=5, pady=5)
 
     #Company's Name
-    self.label = Label(self.tabs1, height = 1, width = 12, text = "Company's Name", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 1, width = 15)
-    self.label.place(x=22,y=30)
-    self.textbox.place(x = 10, y = 50)
+    self.label1 = Label(self.tabs1, height = 1, width = 12, text = "Company's Name", font=("Latha", 10))
+    self.textbox1 = Text(self.tabs1, height = 1, width = 15)
+    self.label1.pack(side = TOP, anchor = W, padx = 10)
+    self.textbox1.pack(side = TOP, anchor = W)
     
     #Positions Name Display Box
-    self.label = Label(self.tabs1, height = 1, width = 10, text = "Position Name", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 1, width = 15)
-    self.label.place(x=200,y=30)
-    self.textbox.place(x = 180, y = 50)
+    self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Position Name", font=("Latha", 10))
+    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
+    self.label2.pack()
+    self.textbox2.pack()
+    #self.label2.place(x=200,y=30)
+    #self.textbox2.place(x = 180, y = 50)
     
     #Date Applied Display Box
-    self.label = Label(self.tabs1, height = 1, width = 10, text = "Date Applied", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 1, width = 15)
-    self.label.place(x=365,y=30)
-    self.textbox.place(x = 345, y = 50)
+    self.label3 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied", font=("Latha", 10))
+    self.textbox3 = Text(self.tabs1, height = 1, width = 15)
+    self.label3.pack(side = TOP, anchor = NE) 
+    self.textbox3.pack(side = TOP,anchor = E)
+    #self.label3.place(y=50)
+    #self.textbox3.place(x = 345, y = 50)
 
     #Job Board
     self.label = Label(self.tabs1, height = 1, width = 12, text = "Job Board", font=("Latha", 10))
@@ -56,18 +60,19 @@ class Tabs(tk.Frame):
     self.label.place(x=22,y=150)
     self.textbox.place(x = 10, y = 170)
 
+    #Others Display Box
+    self.label = Label(self.tabs1, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
+    self.textbox = Text(self.tabs1, height = 5, width = 20)
+    self.label.place(x=200,y=150)
+    self.textbox.place(x = 180, y = 170)
+
     #Descriptions Display Box
     self.label = Label(self.tabs1, height = 1, width = 12, text = "Descriptions Box", font=("Latha", 10))
     self.textbox = Text(self.tabs1, height = 5, width = 20)
     self.label.place(x=200,y=150)
     self.textbox.place(x = 180, y = 170)
 
-    #Others Display Box
-
-
   #def Tabs2(self):
-
-  
 
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
@@ -86,7 +91,7 @@ class MainApplication(tk.Frame):
 
     def Widgets(self):
       self.TabControls = Tabs(self.parent)
-      self.TabControls.pack()
+      #self.TabControls.pack()
 
 #To return the result
 if __name__ == "__main__":
