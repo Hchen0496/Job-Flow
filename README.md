@@ -11,4 +11,11 @@
 **How to Start the App**
 - In-Progress will be done as .exe instead of .py for client standalone
 
+**Programming Used for GUI**
+- Python 
 
+**Deployment**
+- N/A
+
+**Database**
+- MySQL (for local saves)

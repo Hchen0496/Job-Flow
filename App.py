@@ -30,7 +30,7 @@ class Tabs(tk.Frame):
     self.columnconfigure(1, weight=3)
     #DropDown Menu
     self.Dropdown = OptionMenu(self.tabs1, "master", "Man")
-    self.Dropdown.grid(column=0, row=0, sticky=self.W, padx=5, pady=5)
+    self.Dropdown.pack(pady = 10)
 
     #Company's Name
     self.label1 = Label(self.tabs1, height = 1, width = 12, text = "Company's Name", font=("Latha", 10))
