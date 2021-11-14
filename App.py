@@ -26,51 +26,46 @@ class Tabs(tk.Frame):
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)
   
   def Tabs1(self):
-    self.columnconfigure(0, weight=1)
-    self.columnconfigure(1, weight=3)
     #DropDown Menu
     self.Dropdown = OptionMenu(self.tabs1, "master", "Man")
-    self.Dropdown.pack(pady = 10)
+    self.Dropdown.pack(side = "top", anchor = "n", fill="x")
 
     #Company's Name
-    self.label1 = Label(self.tabs1, height = 1, width = 12, text = "Company's Name", font=("Latha", 10))
+    self.label1 = Label(self.tabs1, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10))
     self.textbox1 = Text(self.tabs1, height = 1, width = 15)
-    self.label1.pack(side = TOP, anchor = W, padx = 10)
-    self.textbox1.pack(side = TOP, anchor = W)
-    
-    #Positions Name Display Box
-    self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Position Name", font=("Latha", 10))
-    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
-    self.label2.pack()
-    self.textbox2.pack()
-    #self.label2.place(x=200,y=30)
-    #self.textbox2.place(x = 180, y = 50)
+    self.label1.pack(side = LEFT,anchor=NW, fill=X)
+    self.textbox1.pack(side= LEFT,anchor=NW, fill=X)
     
     #Date Applied Display Box
-    self.label3 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied", font=("Latha", 10))
+    self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
+    self.label2.pack(side= RIGHT,anchor=N, fill=X)
+    self.textbox2.pack(side = RIGHT,anchor=N, fill=X)
+    
+
+    #Position/Role Display Box
+    self.label3 = Label(self.tabs1, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
     self.textbox3 = Text(self.tabs1, height = 1, width = 15)
-    self.label3.pack(side = TOP, anchor = NE) 
-    self.textbox3.pack(side = TOP,anchor = E)
-    #self.label3.place(y=50)
-    #self.textbox3.place(x = 345, y = 50)
+    self.label3.pack(side = LEFT,anchor=NW, fill=Y)
+    self.textbox3.pack(side = LEFT,anchor=NW,fill=Y)
 
     #Job Board
-    self.label = Label(self.tabs1, height = 1, width = 12, text = "Job Board", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 1, width = 15)
-    self.label.place(x=22,y=150)
-    self.textbox.place(x = 10, y = 170)
+    self.label4 = Label(self.tabs1, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
+    self.textbox4 = Text(self.tabs1, height = 1, width = 15)
+    self.textbox4.pack(side= BOTTOM,anchor=E)
+    self.label4.pack(side= RIGHT,anchor=E)
 
     #Others Display Box
-    self.label = Label(self.tabs1, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 5, width = 20)
-    self.label.place(x=200,y=150)
-    self.textbox.place(x = 180, y = 170)
+    #self.label = Label(self.tabs1, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
+    #self.textbox = Text(self.tabs1, height = 5, width = 20)
+    #self.label.place(x=200,y=150)
+    #self.textbox.place(x = 180, y = 170)
 
     #Descriptions Display Box
-    self.label = Label(self.tabs1, height = 1, width = 12, text = "Descriptions Box", font=("Latha", 10))
-    self.textbox = Text(self.tabs1, height = 5, width = 20)
-    self.label.place(x=200,y=150)
-    self.textbox.place(x = 180, y = 170)
+    #self.label = Label(self.tabs1, height = 1, width = 12, text = "Descriptions Box", font=("Latha", 10))
+    #self.textbox = Text(self.tabs1, height = 5, width = 20)
+    #self.label.place(x=200,y=150)
+    #self.textbox.place(x = 180, y = 170)
 
   #def Tabs2(self):
 
