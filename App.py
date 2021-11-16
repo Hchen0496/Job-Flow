@@ -31,29 +31,29 @@ class Tabs(tk.Frame):
     self.Dropdown.pack(side = "top", anchor = "n", fill="x")
 
     #Company's Name
-    self.label1 = Label(self.tabs1, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10))
+    self.label1 = Label(self.tabs1, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
     self.textbox1 = Text(self.tabs1, height = 1, width = 15)
-    self.label1.pack(side = LEFT,anchor=NW, fill=X)
-    self.textbox1.pack(side= LEFT,anchor=NW, fill=X)
-    
-    #Date Applied Display Box
-    self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
-    self.label2.pack(side= RIGHT,anchor=N, fill=X)
-    self.textbox2.pack(side = RIGHT,anchor=N, fill=X)
-    
+    self.label1.pack(side = LEFT, anchor=NW, fill=X)
+    self.textbox1.pack(side= LEFT,anchor=NW, fill=X, expand= True)
 
     #Position/Role Display Box
     self.label3 = Label(self.tabs1, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
     self.textbox3 = Text(self.tabs1, height = 1, width = 15)
-    self.label3.pack(side = LEFT,anchor=NW, fill=Y)
-    self.textbox3.pack(side = LEFT,anchor=NW,fill=Y)
+    self.label3.pack(side = "left",anchor=N, fill=X)
+    self.textbox3.pack(side = "left",anchor=N,fill=X, expand= True)
 
+    #Date Applied Display Box
+    self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
+    self.textbox2.pack(side = RIGHT,anchor=NE)
+    self.label2.pack(side = RIGHT,anchor=NE)
+  
     #Job Board
     self.label4 = Label(self.tabs1, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
     self.textbox4 = Text(self.tabs1, height = 1, width = 15)
-    self.textbox4.pack(side= BOTTOM,anchor=E)
-    self.label4.pack(side= RIGHT,anchor=E)
+    self.textbox4.place(x = 100,y = 100) 
+    # self.textbox4.place(x = -100)
+    self.label4.pack(side= RIGHT,anchor=W)
 
     #Others Display Box
     #self.label = Label(self.tabs1, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
@@ -81,7 +81,7 @@ class MainApplication(tk.Frame):
     def configure_Gui(self):
         self.parent.title("JobSeeker Organizer") #Window Name
         self.parent.iconphoto(True, tk.PhotoImage(file='./Images/Icon_Organizer.png')) #Window Icon set to True applies to all windows
-        self.parent.minsize(500,400)
+        self.parent.minsize(1280,720)
         #self.config(bg = "#add8e6")
 
     def Widgets(self):
@@ -91,7 +91,7 @@ class MainApplication(tk.Frame):
 #To return the result
 if __name__ == "__main__":
     root = tk.Tk()
-    #App = MainApplication(root)
-    MainApplication(root).pack()
+    App = MainApplication(root)
+    #MainApplication(root).pack()
     root.mainloop() #Infinite Loop
 

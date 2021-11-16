@@ -1,4 +1,4 @@
-# JobSeeker-App
+# Job Flow-App
 
 **Updates**
 - Adding in Labels + Textboxs in all Tabs (11/12/2021) 
