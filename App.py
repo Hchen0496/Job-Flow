@@ -79,9 +79,9 @@ class MainApplication(tk.Frame):
         
     #Windows
     def configure_Gui(self):
-        self.parent.title("JobSeeker Organizer") #Window Name
+        self.parent.title("Job Flow") #Window Name
         self.parent.iconphoto(True, tk.PhotoImage(file='./Images/Icon_Organizer.png')) #Window Icon set to True applies to all windows
-        self.parent.minsize(1280,720)
+        self.parent.minsize(900,720)
         #self.config(bg = "#add8e6")
 
     def Widgets(self):
