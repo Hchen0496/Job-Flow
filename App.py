@@ -13,7 +13,7 @@ class Tabs(tk.Frame):
     self.style.map("TNotebook", background= [("selected", "red")])
     self.add_Tabs() #Calling in the Function of adding Tabs
     self.Tabs1() #Calling in the function of the First Tab
-    #self.Tabs2() #Calling in the function of the Second Tab
+    self.Tabs2() #Calling in the function of the Second Tab
     
   def add_Tabs(self):
     #We initialize Tab 1 & 2
@@ -28,38 +28,40 @@ class Tabs(tk.Frame):
   def Tabs1(self):
     #DropDown Menu
     self.Dropdown = OptionMenu(self.tabs1, "master", "Man")
-    self.Dropdown.pack(side = "top", anchor = "n", fill="x")
+    self.Dropdown.pack(side = TOP, anchor = N, expand = FALSE, fill=X)
+
 
     #Company's Name
     self.label1 = Label(self.tabs1, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    self.textbox1 = Text(self.tabs1, height = 1, width = 15)
-    self.label1.pack(side = LEFT, anchor=NW, fill=X)
-    self.textbox1.pack(side= LEFT,anchor=NW, fill=X, expand= True)
+    self.textbox1 = Text(self.tabs1, height = 1, width = 25)
+    self.label1.pack(side = LEFT, anchor=NW, expand = FALSE, fill=X)
+    self.textbox1.pack(side= LEFT,anchor=NW, expand = FALSE, fill=X)
 
     #Position/Role Display Box
     self.label3 = Label(self.tabs1, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    self.textbox3 = Text(self.tabs1, height = 1, width = 15)
-    self.label3.pack(side = "left",anchor=N, fill=X)
-    self.textbox3.pack(side = "left",anchor=N,fill=X, expand= True)
+    self.textbox3 = Text(self.tabs1, height = 1, width = 20)
+    self.label3.pack(side= LEFT, anchor=N, expand = FALSE, fill=X)
+    self.textbox3.pack(side= LEFT,anchor=N, expand = FALSE, fill=X)
 
     #Date Applied Display Box
     self.label2 = Label(self.tabs1, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    self.textbox2 = Text(self.tabs1, height = 1, width = 15)
-    self.textbox2.pack(side = RIGHT,anchor=NE)
-    self.label2.pack(side = RIGHT,anchor=NE)
-  
+    self.textbox2 = Text(self.tabs1, height = 1, width = 20)
+    self.textbox2.pack(side = RIGHT,anchor=NE, expand = FALSE, fill=X)
+    self.label2.pack(side = RIGHT,anchor=NE, expand = FALSE, fill=X)
+
     #Job Board
     self.label4 = Label(self.tabs1, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
     self.textbox4 = Text(self.tabs1, height = 1, width = 15)
-    self.textbox4.place(x = 100,y = 100) 
+    #self.textbox4.place(x = 50, y = 100) 
+    self.textbox4.pack(side = LEFT, anchor=W, expand = FALSE, fill= X) 
     # self.textbox4.place(x = -100)
-    self.label4.pack(side= RIGHT,anchor=W)
+    self.label4.pack(side= LEFT,anchor=W, expand = FALSE, fill= X)
 
     #Others Display Box
-    #self.label = Label(self.tabs1, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
-    #self.textbox = Text(self.tabs1, height = 5, width = 20)
-    #self.label.place(x=200,y=150)
-    #self.textbox.place(x = 180, y = 170)
+    self.label5 = Label(self, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
+    self.textbox5 = Text(self.tabs1, height = 5, width = 20)
+    self.textbox5.pack(side = RIGHT,anchor=E, expand = FALSE, fill= X) 
+    self.label5.pack(side= RIGHT,anchor=E, expand = FALSE, fill= X)
 
     #Descriptions Display Box
     #self.label = Label(self.tabs1, height = 1, width = 12, text = "Descriptions Box", font=("Latha", 10))
@@ -67,7 +69,10 @@ class Tabs(tk.Frame):
     #self.label.place(x=200,y=150)
     #self.textbox.place(x = 180, y = 170)
 
-  #def Tabs2(self):
+  def Tabs2(self):
+    self.Button1 = Button(self.tabs2, text = "Add New")
+    self.Button1.pack(side = TOP, fill= X)
+#class Search Bar(tk.Frame):
 
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
