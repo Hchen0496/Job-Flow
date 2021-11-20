@@ -126,10 +126,39 @@ class Tabs(tk.Frame):
     self.textbox6 = Text(self.bottomframe, height = 5, width = 20)
     self.label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
     self.textbox6.pack(fill= BOTH, expand=TRUE)
-class MenuBar(tk.Frame):
-  
 
-#class Search Bar(tk.Frame):
+class menuBar(tk.Frame):
+  def __init__(self, parent):
+    self.parent = parent
+    tk.Frame.__init__(self, self.parent)
+    #Initiazliing menubar
+    self.menubar = tk.Menu(self.parent)
+    self.parent.config(menu = self.menubar)
+    self.File_Menu()
+    self.Edit_Menu()
+
+  def File_Menu(self):
+    #add menu item to the menu
+    file_menu = tk.Menu(self.menubar,tearoff=FALSE) #initializing file_menu to the Menu on menubar
+    file_menu.add_command(label ="File", command=NONE) #adding commands in the file_menu
+    file_menu.add_command(label ="New File", command=NONE)
+    file_menu.add_command(label ="Save", command=NONE)
+    file_menu.add_command(label ="Save As", command=NONE)
+    file_menu.add_separator()
+    file_menu.add_command(label="Exit", command=self.destroy)
+    self.menubar.add_cascade(label ="File", menu=file_menu) #adding cascade from file_menu into menubar
+
+  def Edit_Menu(self):
+    #add menu iten to the menu
+    edit_menu = tk.Menu(self.menubar, tearoff=FALSE) #initializing file_menu to the Menu on menubar
+    edit_menu.add_command(label ="Undo", command=NONE) #adding commands in the file_menu
+    edit_menu.add_command(label ="Cut", command=NONE)
+    edit_menu.add_command(label ="Copy", command=NONE)
+    edit_menu.add_command(label ="Paste", command=NONE)
+    edit_menu.add_command(label="Delete", command=NONE)
+    edit_menu.add_command(label="Select All", command=NONE)
+    edit_menu.add_separator()
+    self.menubar.add_cascade(label ="Edit", menu=edit_menu) #adding cascade from file_menu into menubar
 
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
@@ -148,8 +177,8 @@ class MainApplication(tk.Frame):
         #self.config(bg = "#add8e6")
 
     def Widgets(self):
+      self.MenuBar = menuBar(self.parent)
       self.TabControls = Tabs(self.parent)
-      #self.TabControls.pack()
 
 #To return the result
 if __name__ == "__main__":
