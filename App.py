@@ -28,7 +28,7 @@ class Tabs(tk.Frame):
   def Tabs1(self):
     #Top Frame
     self.topframe = Frame(self.tabs1)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE)
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #DropDown Menu
     self.Dropdown = OptionMenu(self.topframe, "master", "Man")
     self.Dropdown.pack(expand = FALSE, fill=X)
@@ -50,27 +50,84 @@ class Tabs(tk.Frame):
     
     #Middle Frame
     self.middleframe = Frame(self.tabs1)
-    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE)
+    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #Job Board
     self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
     self.textbox4 = Text(self.middleframe, height = 1, width = 15)
+    self.Buttons1 = Button(self.middleframe, text = "Switch to List")
     self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
-    self.textbox4.pack(side = LEFT, expand = FALSE, fill= NONE)
+    self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
+    self.Buttons1.pack(side = RIGHT, fill= NONE)
+
+    #Mid-bottom Frame
+    self.mbtmFrame = Frame(self.tabs1)
+    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
+    #Labels & Textboxes Description Box 
+    self.label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
+    self.textbox5 = Text(self.mbtmFrame, height = 5, width = 20)
+    self.label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
+    self.textbox5.pack(fill= BOTH, expand=TRUE)
     
     #Bottom Frame
     self.bottomframe = Frame(self.tabs1)
-    self.bottomframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE)
+    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #Others Display Box
-    self.label5 = Label(self.bottomframe, height = 1, width = 12, text = "Others Box", font=("Latha", 10))
+    self.label5 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
     self.textbox5 = Text(self.bottomframe, height = 5, width = 20)
     self.label5.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
-    self.textbox5.pack(anchor = N,side = LEFT, expand = FALSE, fill= NONE)
-
-
+    self.textbox5.pack(fill= BOTH, expand=TRUE)
 
   def Tabs2(self):
-    self.Button1 = Button(self.tabs2, text = "Add New")
+    #Top Frame for Tab 2
+    self.topframe = Frame(self.tabs2)
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
+    #Button for Top Frame
+    self.Button1 = Button(self.topframe, text = "Add New Record")
     self.Button1.pack(side = TOP, fill= X)
+    #Labels & Textboxes For Company's Name
+    self.label1 = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
+    self.textbox1 = Text(self.topframe, height = 1, width = 25)
+    self.label1.pack(side = LEFT,expand = FALSE, fill= NONE)
+    self.textbox1.pack(side = LEFT, expand = TRUE, fill=X)
+    #Labels & Textboxes For Positions
+    self.label2 = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
+    self.textbox2 = Text(self.topframe, height = 1, width = 20)
+    self.label2.pack(side= LEFT, expand = FALSE, fill=NONE)
+    self.textbox2.pack(side= LEFT, expand = TRUE, fill=X)
+    #Labels & Textboxes For Date Applied
+    self.label3 = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    self.textbox3 = Text(self.topframe, height = 1, width = 20)
+    self.label3.pack(side = LEFT, expand = FALSE, fill=NONE) 
+    self.textbox3.pack(side = LEFT, expand = TRUE, fill=X)
+
+    #Middle Frame for Tab 2
+    self.middleframe = Frame(self.tabs2)
+    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
+    #Labels & Textboxes Job Board
+    self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
+    self.textbox4 = Text(self.middleframe, height = 1, width = 15)
+    self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
+    self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
+    
+    #Mid-bottom Frame for Tab 2
+    self.mbtmFrame = Frame(self.tabs2)
+    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
+    #Labels & Textboxes Description Box 
+    self.label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
+    self.textbox5 = Text(self.mbtmFrame, height = 5, width = 20)
+    self.label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
+    self.textbox5.pack(fill= BOTH, expand=TRUE)
+    
+    #Bottom Frame for Tab 2
+    self.bottomframe = Frame(self.tabs2)
+    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
+    #Labels & Textboxes Others Display Box 
+    self.label6 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    self.textbox6 = Text(self.bottomframe, height = 5, width = 20)
+    self.label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
+    self.textbox6.pack(fill= BOTH, expand=TRUE)
+class MenuBar(tk.Frame):
+  
 
 #class Search Bar(tk.Frame):
 
