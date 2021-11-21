@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk #Getting Tabs from this library
 import tkinter as tk
+from tkinter import messagebox
+import mysql.connector
 
 class Tabs(tk.Frame):
   def __init__(self, parent):
@@ -14,7 +16,7 @@ class Tabs(tk.Frame):
     self.add_Tabs() #Calling in the Function of adding Tabs
     self.Tabs1() #Calling in the function of the First Tab layer top
     self.Tabs2() #Calling in the function of the Second Tab
-    
+
   def add_Tabs(self):
     #We initialize Tab 1 & 2
     self.tabs1 = ttk.Frame(self.tabControl)
@@ -31,7 +33,12 @@ class Tabs(tk.Frame):
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #DropDown Menu
     self.Dropdown = OptionMenu(self.topframe, "master", "Man")
-    self.Dropdown.pack(expand = FALSE, fill=X)
+    self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
+    #ID For each Record
+    self.Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
+    self.idText = Text(self.topframe, height = 1, width = 5)
+    self.Idlabel.pack(side = LEFT, fill =X)
+    self.idText.pack(side = LEFT, fill =X)
     #Company's Name
     self.label1 = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
     self.textbox1 = Text(self.topframe, height = 1, width = 25)
@@ -55,9 +62,11 @@ class Tabs(tk.Frame):
     self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
     self.textbox4 = Text(self.middleframe, height = 1, width = 15)
     self.Buttons1 = Button(self.middleframe, text = "Switch to List")
+    self.Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
     self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
     self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
     self.Buttons1.pack(side = RIGHT, fill= NONE)
+    self.Buttons2.pack(side = RIGHT, fill= NONE)
 
     #Mid-bottom Frame
     self.mbtmFrame = Frame(self.tabs1)
@@ -81,22 +90,19 @@ class Tabs(tk.Frame):
     #Top Frame for Tab 2
     self.topframe = Frame(self.tabs2)
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #Button for Top Frame
-    self.Button1 = Button(self.topframe, text = "Add New Record")
-    self.Button1.pack(side = TOP, fill= X)
     #Labels & Textboxes For Company's Name
     self.label1 = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    self.textbox1 = Text(self.topframe, height = 1, width = 25)
+    self.textbox1 = Entry(self.topframe, width = 25)
     self.label1.pack(side = LEFT,expand = FALSE, fill= NONE)
     self.textbox1.pack(side = LEFT, expand = TRUE, fill=X)
     #Labels & Textboxes For Positions
     self.label2 = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    self.textbox2 = Text(self.topframe, height = 1, width = 20)
+    self.textbox2 = Entry(self.topframe, width = 20)
     self.label2.pack(side= LEFT, expand = FALSE, fill=NONE)
     self.textbox2.pack(side= LEFT, expand = TRUE, fill=X)
     #Labels & Textboxes For Date Applied
     self.label3 = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    self.textbox3 = Text(self.topframe, height = 1, width = 20)
+    self.textbox3 = Entry(self.topframe, width = 20)
     self.label3.pack(side = LEFT, expand = FALSE, fill=NONE) 
     self.textbox3.pack(side = LEFT, expand = TRUE, fill=X)
 
@@ -105,16 +111,18 @@ class Tabs(tk.Frame):
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #Labels & Textboxes Job Board
     self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
-    self.textbox4 = Text(self.middleframe, height = 1, width = 15)
+    self.textbox4 = Entry(self.middleframe, width = 15)
+    self.Button1 = Button(self.middleframe, text="Upload Resume") #Submit Resume Button
     self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
     self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
+    self.Button1.pack(side = RIGHT, fill= NONE)
     
     #Mid-bottom Frame for Tab 2
     self.mbtmFrame = Frame(self.tabs2)
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     #Labels & Textboxes Description Box 
     self.label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    self.textbox5 = Text(self.mbtmFrame, height = 5, width = 20)
+    self.textbox5 = Entry(self.mbtmFrame, width = 20)
     self.label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
     self.textbox5.pack(fill= BOTH, expand=TRUE)
     
@@ -123,9 +131,41 @@ class Tabs(tk.Frame):
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #Labels & Textboxes Others Display Box 
     self.label6 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
-    self.textbox6 = Text(self.bottomframe, height = 5, width = 20)
+    self.textbox6 = Entry(self.bottomframe, width = 20,)
     self.label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
     self.textbox6.pack(fill= BOTH, expand=TRUE)
+    #Submit Button
+    self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit)
+    self.Button1.pack(fill= X)
+  def Submit(self):
+    #Initiated all variables to recieve all text inputs
+    CompanyName = self.textbox1.get();
+    Roles = self.textbox2.get();
+    DateApplied = self.textbox3.get();
+    JobBoard = self.textbox4.get();
+    Descriptions = self.textbox5.get();
+    Others = self.textbox6.get();
+
+    if (CompanyName =="" or Roles =="" or DateApplied == "" ):
+      messagebox.showinfo("status","Field Required are missing")
+    else:
+      #Connected to an existing database
+      mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
+      mycursor = mydb.cursor()
+      #insert all of our text values onto the database
+      mycursor.execute("insert into flowing(CompanyName,Roles,DateApplied,JobBoard,Descriptions,Others) values('"+CompanyName+"','"+Roles+"','"+DateApplied+"','"+JobBoard+"','"+Descriptions+"','"+Others+"')")
+      messagebox.showinfo("Status","Added Job Info")
+      #commit & close the database
+      mycursor.execute("commit")
+      mydb.close()
+      #clear textboxes after submission
+      self.textbox1.delete(0, END)
+      self.textbox2.delete(0, END)
+      self.textbox3.delete(0, END)
+      self.textbox4.delete(0, END)
+      self.textbox5.delete(0, END)
+      self.textbox6.delete(0, END)
+
 
 class menuBar(tk.Frame):
   def __init__(self, parent):
@@ -136,10 +176,11 @@ class menuBar(tk.Frame):
     self.parent.config(menu = self.menubar)
     self.File_Menu()
     self.Edit_Menu()
+    self.Help_Menu()
 
   def File_Menu(self):
     #add menu item to the menu
-    file_menu = tk.Menu(self.menubar,tearoff=FALSE) #initializing file_menu to the Menu on menubar
+    file_menu = tk.Menu(self.menubar,tearoff=FALSE) #initializing file_menu to the Menu on menubar, tearoff is to get rid of the dashed line on top of the File & etc.. Menu Option
     file_menu.add_command(label ="File", command=NONE) #adding commands in the file_menu
     file_menu.add_command(label ="New File", command=NONE)
     file_menu.add_command(label ="Save", command=NONE)
@@ -149,16 +190,28 @@ class menuBar(tk.Frame):
     self.menubar.add_cascade(label ="File", menu=file_menu) #adding cascade from file_menu into menubar
 
   def Edit_Menu(self):
-    #add menu iten to the menu
-    edit_menu = tk.Menu(self.menubar, tearoff=FALSE) #initializing file_menu to the Menu on menubar
-    edit_menu.add_command(label ="Undo", command=NONE) #adding commands in the file_menu
+    #add Edit
+    edit_menu = tk.Menu(self.menubar, tearoff=FALSE) 
+    edit_menu.add_command(label ="Undo", command=NONE) 
     edit_menu.add_command(label ="Cut", command=NONE)
     edit_menu.add_command(label ="Copy", command=NONE)
     edit_menu.add_command(label ="Paste", command=NONE)
     edit_menu.add_command(label="Delete", command=NONE)
     edit_menu.add_command(label="Select All", command=NONE)
     edit_menu.add_separator()
-    self.menubar.add_cascade(label ="Edit", menu=edit_menu) #adding cascade from file_menu into menubar
+    self.menubar.add_cascade(label ="Edit", menu=edit_menu) 
+
+  def Help_Menu(self):
+    #add Help menu
+    help_menu = tk.Menu(self.menubar, tearoff=FALSE) 
+    help_menu.add_command(label ="About", command=NONE) 
+    help_menu.add_command(label ="Help")
+    self.menubar.add_cascade(label ="Help", menu=help_menu) 
+class Switch_View_List(tk.Frame):
+  def __init__(self, parent):
+    self.parent = parent
+    tk.Frame.__init__(self, self.parent)
+
 
 class MainApplication(tk.Frame):
     #Initializing the start of the Window
