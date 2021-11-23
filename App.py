@@ -4,6 +4,10 @@ import tkinter as tk
 from tkinter import messagebox
 import mysql.connector
 
+#Connected to an existing database
+mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
+mycursor = mydb.cursor()
+
 class Tabs(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -16,7 +20,6 @@ class Tabs(tk.Frame):
     self.add_Tabs() #Calling in the Function of adding Tabs
     self.Tabs1() #Calling in the function of the First Tab layer top
     self.Tabs2() #Calling in the function of the Second Tab
-
   def add_Tabs(self):
     #We initialize Tab 1 & 2
     self.tabs1 = ttk.Frame(self.tabControl)
@@ -26,13 +29,15 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs2, text ="Add New Record")
     #Made sure we pack the parent tab and add arguments of how we want it to appear on windows
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
-  
   def Tabs1(self):
     #Top Frame
     self.topframe = Frame(self.tabs1)
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #DropDown Menu
-    self.Dropdown = OptionMenu(self.topframe, "master", "Man")
+    Company_Name_List = mycursor.execute("select CompanyName from flowing")
+    value_inside = tk.StringVar(self)
+    value_inside.set("Select Job List to View")
+    self.Dropdown = OptionMenu(self.topframe, value_inside, Company_Name_List, command=self.SelectOptions)
     self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
     #ID For each Record
     self.Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
@@ -85,7 +90,6 @@ class Tabs(tk.Frame):
     self.textbox5 = Text(self.bottomframe, height = 5, width = 20)
     self.label5.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
     self.textbox5.pack(fill= BOTH, expand=TRUE)
-
   def Tabs2(self):
     #Top Frame for Tab 2
     self.topframe = Frame(self.tabs2)
@@ -149,9 +153,6 @@ class Tabs(tk.Frame):
     if (CompanyName =="" or Roles =="" or DateApplied == "" ):
       messagebox.showinfo("status","Field Required are missing")
     else:
-      #Connected to an existing database
-      mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
-      mycursor = mydb.cursor()
       #insert all of our text values onto the database
       mycursor.execute("insert into flowing(CompanyName,Roles,DateApplied,JobBoard,Descriptions,Others) values('"+CompanyName+"','"+Roles+"','"+DateApplied+"','"+JobBoard+"','"+Descriptions+"','"+Others+"')")
       messagebox.showinfo("Status","Added Job Info")
@@ -165,7 +166,27 @@ class Tabs(tk.Frame):
       self.textbox4.delete(0, END)
       self.textbox5.delete(0, END)
       self.textbox6.delete(0, END)
+  def Update(self):
+    #Database purposes
+    CompanyName = self.textbox1.get();
+    Roles = self.textbox2.get();
+    DateApplied = self.textbox3.get();
+    JobBoard = self.textbox4.get();
+    Descriptions = self.textbox5.get();
+    Others = self.textbox6.get();
 
+    mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
+    mycursor.execute("commit")
+    mydb.close()
+  def DisplayRecord(self):
+    ids = "select id from flowing"
+    sql_select_query = "select CompanyName from flowing "
+    if (id == ids):
+      print ()
+  def SelectOptions(choice):
+    variable = mycursor.execute("select CompanyName from flowing")
+    choice = variable.get()
+    print(choice)
 
 class menuBar(tk.Frame):
   def __init__(self, parent):

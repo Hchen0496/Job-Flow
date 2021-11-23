@@ -1,6 +1,7 @@
 # Job Flow-App
 
 **Updates**
+- Finished the creation of both Tab & Menu, working on the commands & data (11/22/2021)
 - Adding in Menu Bar (11/19/2021)
 - Adding in Labels + Textboxes in all Tabs (11/12/2021) 
 - Finished Creating Tabs (11/11/2021)
