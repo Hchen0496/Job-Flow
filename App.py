@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk #Getting Tabs from this library
 import tkinter as tk
 from tkinter import messagebox
+from typing import List
 import mysql.connector
 
 #Connected to an existing database
@@ -31,23 +32,33 @@ class Tabs(tk.Frame):
     #Made sure we pack the parent tab and add arguments of how we want it to appear on windows
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
   def Tabs1(self):
-
     #Top Frame
     self.topframe = Frame(self.tabs1)
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #DropDown Menu
-    mycursor.execute("select CompanyName from flowing")
+    #DropDown Menu & it's fetching Data from the database
+    Select_CompanyName_Sql = "select CompanyName from flowing"
+    mycursor.execute(Select_CompanyName_Sql)
     CompanyNameList = []
     Lists = mycursor.fetchall()
     for i in Lists:
-      CompanyNameList.append(i)
-    value_inside = tk.StringVar(self)
-    value_inside.set("Select Options")
-    self.Dropdown = OptionMenu(self.topframe, value_inside, CompanyNameList, command=NONE)
+        CompanyNameList.append(i)
+      #default values starting point    
+    value_inside = tk.StringVar(self) 
+    value_inside.set("Select Job")
+    self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList) # the *variable means to align them in vertical, without it, it would be in vertical
     self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
     #ID For each Record
+    Select_ID_Sql = "select id from flowing"
+    selected = self.Dropdown.get()
+    Id = mycursor.fetchall()
+    for i in Lists:
+      if (selected == i):
+        mycursor.execute(Select_ID_Sql)
+        Id
+
+
     self.Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
-    self.idText = Text(self.topframe, height = 1, width = 5)
+    self.idText = Text(self.topframe, self.Id, height = 1, width = 5)
     self.Idlabel.pack(side = LEFT, fill =X)
     self.idText.pack(side = LEFT, fill =X)
     #Company's Name
@@ -147,6 +158,7 @@ class Tabs(tk.Frame):
     #Submit Button
     self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit)
     self.Button1.pack(fill= X)
+  
   def Submit(self):
     #Initiated all variables to recieve all text inputs
     CompanyName = self.textbox1.get();
@@ -155,7 +167,6 @@ class Tabs(tk.Frame):
     JobBoard = self.textbox4.get();
     Descriptions = self.textbox5.get();
     Others = self.textbox6.get();
-
     if (CompanyName =="" or Roles =="" or DateApplied == "" ):
       messagebox.showinfo("status","Field Required are missing")
     else:
@@ -172,6 +183,8 @@ class Tabs(tk.Frame):
       self.textbox4.delete(0, END)
       self.textbox5.delete(0, END)
       self.textbox6.delete(0, END)
+    
+
   def Update(self):
     #Database purposes
     CompanyName = self.textbox1.get();
@@ -190,10 +203,9 @@ class Tabs(tk.Frame):
     if (id == ids):
       print ()
   def SelectOptions(choice):
-    variable = mycursor.execute("select CompanyName from flowing")
-    choice = variable.get()
-    print(choice)
-
+    query = "select CompanyName from flowing"
+    choice = query.get()
+      
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
