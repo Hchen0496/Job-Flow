@@ -20,6 +20,7 @@ class Tabs(tk.Frame):
     self.add_Tabs() #Calling in the Function of adding Tabs
     self.Tabs1() #Calling in the function of the First Tab layer top
     self.Tabs2() #Calling in the function of the Second Tab
+
   def add_Tabs(self):
     #We initialize Tab 1 & 2
     self.tabs1 = ttk.Frame(self.tabControl)
@@ -30,14 +31,19 @@ class Tabs(tk.Frame):
     #Made sure we pack the parent tab and add arguments of how we want it to appear on windows
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
   def Tabs1(self):
+
     #Top Frame
     self.topframe = Frame(self.tabs1)
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #DropDown Menu
-    Company_Name_List = mycursor.execute("select CompanyName from flowing")
+    mycursor.execute("select CompanyName from flowing")
+    CompanyNameList = []
+    Lists = mycursor.fetchall()
+    for i in Lists:
+      CompanyNameList.append(i)
     value_inside = tk.StringVar(self)
-    value_inside.set("Select Job List to View")
-    self.Dropdown = OptionMenu(self.topframe, value_inside, Company_Name_List, command=self.SelectOptions)
+    value_inside.set("Select Options")
+    self.Dropdown = OptionMenu(self.topframe, value_inside, CompanyNameList, command=NONE)
     self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
     #ID For each Record
     self.Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
