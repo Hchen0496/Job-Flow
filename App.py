@@ -33,49 +33,83 @@ class Tabs(tk.Frame):
   def Tabs1(self):
     #Top Frame
     self.topframe = Frame(self.tabs1)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #DropDown Menu & it's fetching Data from the database
-    Select_CompanyName_Sql = "select CompanyName from flowing"
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))   
+    #SQL function for ComboBox
+    Select_CompanyName_Sql = "select id, CompanyName from flowing"
     mycursor.execute(Select_CompanyName_Sql)
     CompanyNameList = []
-    Lists = mycursor.fetchall()
-    for i in Lists:
-      CompanyNameList.append(i)    
-    value_inside = tk.StringVar(self) #default values starting point
-    value_inside.set("Select Job")
-    self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList, command = lambda:DisplayRecord()) # the *variable means to align them in vertical, without it, it would be in vertical
-    self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
+    for i in mycursor.fetchall():
+      CompanyNameList.append(str(i[0]) + ". " + str(i[1])) 
+    
+    def lookupJobs(event):
+      option = CompanyName_cb.get()
+      cid = option.split("-")[0]
+      query = "select * from flowing where id = %s"
+      mycursor.execute(query,(cid,))
+      rows = mycursor.fetchall()
+      for i in rows:
+        idlist.set(i[0])
+        companynamelist.set(i[1])
+        rolelist.set(i[2])
+        datelist.set(i[3])
+        jobboardlist.set(i[4])
+        Descriptionlist.set(i[5])
+        otherlist.set(i[6]) 
+    
+    idlist = StringVar()
+    companynamelist = StringVar()
+    rolelist = StringVar()
+    datelist = StringVar()
+    jobboardlist = StringVar()
+    Descriptionlist = StringVar()
+    otherlist = StringVar()
+
+    #Combox DropDown to select Company's Name Only
+    selected_Company_Name = tk.StringVar()
+    selected_Company_Name.set("Select Company")
+    CompanyName_cb = ttk.Combobox(self.topframe, textvariable = selected_Company_Name, state = 'readonly')
+    CompanyName_cb['values'] = CompanyNameList
+    CompanyName_cb.pack(side = LEFT,anchor = N,expand = FALSE, fill=X) 
+    CompanyName_cb.current(0)
+    CompanyName_cb.bind("<<ComboboxSelected>>", lookupJobs)
+
+    #DropDown Menu & it's fetching Data from the database
+    #value_inside = tk.StringVar(self) #default values starting point
+    #value_inside.set("Select Job")
+    #self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList) # the *variable means to align them in vertical, without it, it would be in vertical
+    #self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
     #ID For each Record
-    self.Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
-    self.id_Text = Text(self.topframe, height = 1, width = 5)
-    self.Idlabel.pack(side = LEFT, fill =X)
-    self.id_Text.pack(side = LEFT, fill =X)
+    Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
+    id_Text = Entry(self.topframe, width = 5, textvariable=idlist)
+    Idlabel.pack(side = LEFT, fill =X)
+    id_Text.pack(side = LEFT, fill =X)
     #Company's Name
-    self.CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    self.CompanyName_Text_Box = Text(self.topframe, height = 1, width = 25)
-    self.CompanyName_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
-    self.CompanyName_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
+    CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
+    CompanyName_Text_Box = Entry(self.topframe, width = 25, textvariable=companynamelist)
+    CompanyName_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
+    CompanyName_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
     #Position/Role Display Box
-    self.label2 = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    self.textbox2 = Text(self.topframe, height = 1, width = 20)
-    self.label2.pack(side= LEFT, expand = FALSE, fill=NONE)
-    self.textbox2.pack(side= LEFT, expand = TRUE, fill=X)
+    Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
+    Roles_textbox = Entry(self.topframe, width = 20, textvariable=rolelist)
+    Roles_Label.pack(side= LEFT, expand = FALSE, fill=NONE)
+    Roles_textbox.pack(side= LEFT, expand = TRUE, fill=X)
     #Date Applied Display Box
-    self.label3 = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    self.textbox3 = Text(self.topframe, height = 1, width = 20)
-    self.label3.pack(side = LEFT, expand = FALSE, fill=NONE) 
-    self.textbox3.pack(side = LEFT, expand = TRUE, fill=X)
+    Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    Date_Applied_Text_Box = Entry(self.topframe, width = 20, textvariable=datelist)
+    Date_Applied_Label.pack(side = LEFT, expand = FALSE, fill=NONE) 
+    Date_Applied_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
     
     #Middle Frame
     self.middleframe = Frame(self.tabs1)
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     #Job Board
-    self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
-    self.textbox4 = Text(self.middleframe, height = 1, width = 15)
-    self.Buttons1 = Button(self.middleframe, text = "Switch to List")
+    label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
+    textbox4 = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
+    #Buttons
+    self.Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.NavigateinList)
     self.Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
-    self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
+    label4.pack(side = LEFT, expand = FALSE, fill= NONE)
+    textbox4.pack(side = LEFT, expand = TRUE, fill= X)
     self.Buttons1.pack(side = RIGHT, fill= NONE)
     self.Buttons2.pack(side = RIGHT, fill= NONE)
 
@@ -83,31 +117,20 @@ class Tabs(tk.Frame):
     self.mbtmFrame = Frame(self.tabs1)
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     #Labels & Textboxes Description Box 
-    self.label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    self.textbox5 = Text(self.mbtmFrame, height = 5, width = 20)
-    self.label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
-    self.textbox5.pack(fill= BOTH, expand=TRUE)
+    label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
+    textbox5 = Entry(self.mbtmFrame, width = 20,justify= LEFT, textvariable = Descriptionlist)
+    label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
+    textbox5.pack(fill= BOTH, expand=TRUE)
     
     #Bottom Frame
     self.bottomframe = Frame(self.tabs1)
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #Others Display Box
-    self.label5 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
-    self.textbox5 = Text(self.bottomframe, height = 5, width = 20)
-    self.label5.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
-    self.textbox5.pack(fill= BOTH, expand=TRUE)
-
-    def DisplayRecord(self):
-      Select_ID_Sql = "select id from flowing"
-      mycursor.execute(Select_ID_Sql)
-      mycursor.fetchall()
-      Id_List = []
-      dropdown = self.value_inside.get()
-      for i in Select_ID_Sql:
-        Id_List.append(i)
-        self.id_Text.insert(i,"nable")
-      return self.id_Text.insert(i,"nable")
-
+    label6 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    textbox6 = Entry(self.bottomframe, width = 20, textvariable = otherlist)
+    label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
+    textbox6.pack(fill= BOTH, expand=TRUE)
+    
   def Tabs2(self):
     #Top Frame for Tab 2
     self.topframe = Frame(self.tabs2)
@@ -195,6 +218,16 @@ class Tabs(tk.Frame):
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
     mycursor.execute("commit")
     mydb.close()
+  def NavigateinList(self):
+    #Combobox 
+    self.list = Listbox(self.topframe,width = 40, height = 10, selectmode=MULTIPLE)
+    self.list.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
+    #Database 
+    Select_CompanyName_Sql = "select CompanyName from flowing"
+    mycursor.execute(Select_CompanyName_Sql)
+    Lists = mycursor.fetchall()
+    for i in Lists:
+      self.combobox.insert(1, str(i)) 
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
