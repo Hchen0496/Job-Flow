@@ -18,29 +18,27 @@ class Tabs(tk.Frame):
     self.style.theme_use('default')
     self.style.configure('TNotebook.Tab', background="#add8e6")
     self.style.map("TNotebook", background= [("selected", "red")])
-    self.add_Tabs() #Calling in the Function of adding Tabs
-    self.Tabs1() #Calling in the function of the First Tab layer top
-    self.Tabs2() #Calling in the function of the Second Tab
-  def add_Tabs(self):
-    #We initialize Tab 1 & 2
+    # initializing Tab 1 & 2 & it's layout
     self.tabs1 = ttk.Frame(self.tabControl)
     self.tabs2 = ttk.Frame(self.tabControl)
-    #from the Parent of the Switching Tab, we add in Tab 1 & 2, and then we name each of them
     self.tabControl.add(self.tabs1, text ="Main Record")
     self.tabControl.add(self.tabs2, text ="Add New Record")
-    #Made sure we pack the parent tab and add arguments of how we want it to appear on windows
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
+    self.Tabs1() #Calling in the function of the First Tab layer top
+    self.Tabs2() #Calling in the function of the Second Tab
+    #DropDown Menu & it's fetching Data from the database
+    #value_inside = tk.StringVar(self) #default values starting point
+    #value_inside.set("Select Job")
+    #self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList) # the *variable means to align them in vertical, without it, it would be in vertical
+    #self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
   def Tabs1(self):
-    #Top Frame
-    self.topframe = Frame(self.tabs1)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))   
-    #SQL function for ComboBox
+    #MYSQL function for ComboBox
     Select_CompanyName_Sql = "select id, CompanyName from flowing"
     mycursor.execute(Select_CompanyName_Sql)
     CompanyNameList = []
     for i in mycursor.fetchall():
-      CompanyNameList.append(str(i[0]) + ". " + str(i[1])) 
-    
+      CompanyNameList.append(str(i[0]) + ". " + str(i[1]))  
+    #Function to pull records from MYSQL Database onto widget Entry
     def lookupJobs(event):
       option = CompanyName_cb.get()
       cid = option.split("-")[0]
@@ -55,141 +53,115 @@ class Tabs(tk.Frame):
         jobboardlist.set(i[4])
         Descriptionlist.set(i[5])
         otherlist.set(i[6]) 
-    
-    idlist = StringVar()
-    companynamelist = StringVar()
-    rolelist = StringVar()
-    datelist = StringVar()
-    jobboardlist = StringVar()
-    Descriptionlist = StringVar()
-    otherlist = StringVar()
-
+    #Initalizing all textvariable as StringVar for MYSQL to read Data and display the data
+    idlist = StringVar(); 
+    companynamelist = StringVar();
+    rolelist = StringVar();
+    datelist = StringVar();
+    jobboardlist = StringVar();
+    Descriptionlist = StringVar();
+    otherlist = StringVar() ;  
+    #Top, Middle, Mid-Bottom, & Bottom Frame
+    self.topframe = Frame(self.tabs1)
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))  
+    self.middleframe = Frame(self.tabs1)
+    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
+    self.mbtmFrame = Frame(self.tabs1)
+    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
+    self.bottomframe = Frame(self.tabs1)
+    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)      
     #Combox DropDown to select Company's Name Only
     selected_Company_Name = tk.StringVar()
-    selected_Company_Name.set("Select Company")
     CompanyName_cb = ttk.Combobox(self.topframe, textvariable = selected_Company_Name, state = 'readonly')
     CompanyName_cb['values'] = CompanyNameList
     CompanyName_cb.pack(side = LEFT,anchor = N,expand = FALSE, fill=X) 
-    CompanyName_cb.current(0)
     CompanyName_cb.bind("<<ComboboxSelected>>", lookupJobs)
-
-    #DropDown Menu & it's fetching Data from the database
-    #value_inside = tk.StringVar(self) #default values starting point
-    #value_inside.set("Select Job")
-    #self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList) # the *variable means to align them in vertical, without it, it would be in vertical
-    #self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
-    #ID For each Record
+    #All Labels 
     Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
+    CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
+    Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
+    Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
+    Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
+    Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    #All Entry box for each content
     id_Text = Entry(self.topframe, width = 5, textvariable=idlist)
+    CompanyName_Text_Box = Entry(self.topframe, width = 25, textvariable=companynamelist)
+    Roles_textbox = Entry(self.topframe, width = 20, textvariable=rolelist)
+    Date_Applied_Text_Box = Entry(self.topframe, width = 20, textvariable=datelist)
+    Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
+    Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
+    Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
+    #All Buttons
+    Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.NavigateinList)
+    Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
+    #All Widgets Layout Management
     Idlabel.pack(side = LEFT, fill =X)
     id_Text.pack(side = LEFT, fill =X)
-    #Company's Name
-    CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    CompanyName_Text_Box = Entry(self.topframe, width = 25, textvariable=companynamelist)
     CompanyName_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
     CompanyName_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
-    #Position/Role Display Box
-    Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    Roles_textbox = Entry(self.topframe, width = 20, textvariable=rolelist)
     Roles_Label.pack(side= LEFT, expand = FALSE, fill=NONE)
     Roles_textbox.pack(side= LEFT, expand = TRUE, fill=X)
-    #Date Applied Display Box
-    Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    Date_Applied_Text_Box = Entry(self.topframe, width = 20, textvariable=datelist)
     Date_Applied_Label.pack(side = LEFT, expand = FALSE, fill=NONE) 
     Date_Applied_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
-    
-    #Middle Frame
-    self.middleframe = Frame(self.tabs1)
-    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #Job Board
-    label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
-    textbox4 = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
-    #Buttons
-    self.Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.NavigateinList)
-    self.Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    label4.pack(side = LEFT, expand = FALSE, fill= NONE)
-    textbox4.pack(side = LEFT, expand = TRUE, fill= X)
-    self.Buttons1.pack(side = RIGHT, fill= NONE)
-    self.Buttons2.pack(side = RIGHT, fill= NONE)
-
-    #Mid-bottom Frame
-    self.mbtmFrame = Frame(self.tabs1)
-    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
-    #Labels & Textboxes Description Box 
-    label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    textbox5 = Entry(self.mbtmFrame, width = 20,justify= LEFT, textvariable = Descriptionlist)
-    label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
-    textbox5.pack(fill= BOTH, expand=TRUE)
-    
-    #Bottom Frame
-    self.bottomframe = Frame(self.tabs1)
-    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
-    #Others Display Box
-    label6 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
-    textbox6 = Entry(self.bottomframe, width = 20, textvariable = otherlist)
-    label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
-    textbox6.pack(fill= BOTH, expand=TRUE)
-    
+    Job_Board_Label.pack(side = LEFT, expand = FALSE, fill= NONE)
+    Job_Board_Text_Box.pack(side = LEFT, expand = TRUE, fill= X)
+    Buttons1.pack(side = RIGHT, fill= NONE)
+    Buttons2.pack(side = RIGHT, fill= NONE)
+    Description_Label.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
+    Description_Text_Box.pack(fill= BOTH, expand=TRUE)
+    Others_Label.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
+    Others_Text_Box.pack(fill= BOTH, expand=TRUE)   
   def Tabs2(self):
-    #Top Frame for Tab 2
+    #Top, Middle, Mid-Bottom, Bottom Frame for Tab 2
     self.topframe = Frame(self.tabs2)
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #Labels & Textboxes For Company's Name
-    self.label1 = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    self.textbox1 = Entry(self.topframe, width = 25)
-    self.label1.pack(side = LEFT,expand = FALSE, fill= NONE)
-    self.textbox1.pack(side = LEFT, expand = TRUE, fill=X)
-    #Labels & Textboxes For Positions
-    self.label2 = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    self.textbox2 = Entry(self.topframe, width = 20)
-    self.label2.pack(side= LEFT, expand = FALSE, fill=NONE)
-    self.textbox2.pack(side= LEFT, expand = TRUE, fill=X)
-    #Labels & Textboxes For Date Applied
-    self.label3 = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    self.textbox3 = Entry(self.topframe, width = 20)
-    self.label3.pack(side = LEFT, expand = FALSE, fill=NONE) 
-    self.textbox3.pack(side = LEFT, expand = TRUE, fill=X)
-
-    #Middle Frame for Tab 2
     self.middleframe = Frame(self.tabs2)
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
-    #Labels & Textboxes Job Board
-    self.label4 = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
-    self.textbox4 = Entry(self.middleframe, width = 15)
-    self.Button1 = Button(self.middleframe, text="Upload Resume") #Submit Resume Button
-    self.label4.pack(side = LEFT, expand = FALSE, fill= NONE)
-    self.textbox4.pack(side = LEFT, expand = TRUE, fill= X)
-    self.Button1.pack(side = RIGHT, fill= NONE)
-    
-    #Mid-bottom Frame for Tab 2
     self.mbtmFrame = Frame(self.tabs2)
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
-    #Labels & Textboxes Description Box 
-    self.label5 = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    self.textbox5 = Entry(self.mbtmFrame, width = 20)
-    self.label5.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
-    self.textbox5.pack(fill= BOTH, expand=TRUE)
-    
-    #Bottom Frame for Tab 2
     self.bottomframe = Frame(self.tabs2)
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
-    #Labels & Textboxes Others Display Box 
-    self.label6 = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
-    self.textbox6 = Entry(self.bottomframe, width = 20,)
-    self.label6.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
-    self.textbox6.pack(fill= BOTH, expand=TRUE)
-    #Submit Button
-    self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit)
+    #All Labels for each content
+    self.Company_Name_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
+    self.Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
+    self.Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    self.Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
+    self.Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
+    self.Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    #All Text/Entry Widgets for each content
+    self.Company_Name_Text_Box = Entry(self.topframe, width = 25)
+    self.Roles_Text_Box = Entry(self.topframe, width = 20)
+    self.Date_Applied_Text_Box = Entry(self.topframe, width = 20)
+    self.Job_Board_Text = Entry(self.middleframe, width = 15)
+    self.Description_Text_Box = Entry(self.mbtmFrame, width = 20)
+    self.Others_Text_Box = Entry(self.bottomframe, width = 20,)
+    #All Buttons
+    self.Upload_Resume_Button = Button(self.middleframe, text="Upload Resume") #Upload Resume Button
+    self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit) #Add/Submit New Record
+    #All widgets Layout Management
+    self.Company_Name_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
+    self.Company_Name_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
+    self.Roles_Label.pack(side= LEFT, expand = FALSE, fill=NONE)
+    self.Roles_Text_Box.pack(side= LEFT, expand = TRUE, fill=X)
+    self.Date_Applied_Label.pack(side = LEFT, expand = FALSE, fill=NONE) 
+    self.Date_Applied_Text_Box.pack(side = LEFT, expand = TRUE, fill=X)
+    self.Job_Board_Label.pack(side = LEFT, expand = FALSE, fill= NONE)
+    self.Job_Board_Text.pack(side = LEFT, expand = TRUE, fill= X)
+    self.Upload_Resume_Button.pack(side = RIGHT, fill= NONE)
+    self.Description_Label.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
+    self.Description_Text_Box.pack(fill= BOTH, expand=TRUE)
+    self.Others_Label.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
+    self.Others_Text_Box.pack(fill= BOTH, expand=TRUE)
     self.Button1.pack(fill= X)
   def Submit(self):
     #Initiated all variables to recieve all text inputs
-    CompanyName = self.textbox1.get();
-    Roles = self.textbox2.get();
-    DateApplied = self.textbox3.get();
-    JobBoard = self.textbox4.get();
-    Descriptions = self.textbox5.get();
-    Others = self.textbox6.get();
+    CompanyName = self.Company_Name_Text_Box.get();
+    Roles = self.Roles_Text_Box.get();
+    DateApplied = self.Date_Applied_Text_Box.get();
+    JobBoard = self.Job_Board_Text.get();
+    Descriptions = self.Description_Text_Box.get();
+    Others = self.Others_Text_Box.get();
     if (CompanyName =="" or Roles =="" or DateApplied == "" ):
       messagebox.showinfo("status","Field Required are missing")
     else:
@@ -200,20 +172,20 @@ class Tabs(tk.Frame):
       mycursor.execute("commit")
       mydb.close()
       #clear textboxes after submission
-      self.textbox1.delete(0, END)
-      self.textbox2.delete(0, END)
-      self.textbox3.delete(0, END)
-      self.textbox4.delete(0, END)
-      self.textbox5.delete(0, END)
-      self.textbox6.delete(0, END)
+      self.Company_Name_Text_Box.delete(0, END)
+      self.Roles_Text_Box.delete(0, END)
+      self.Date_Applied_Text_Box.delete(0, END)
+      self.Job_Board_Text.delete(0, END)
+      self.Description_Text_Box.delete(0, END)
+      self.Others_Text_Box.delete(0, END)
   def Update(self):
     #Database purposes
-    CompanyName = self.textbox1.get();
-    Roles = self.textbox2.get();
-    DateApplied = self.textbox3.get();
-    JobBoard = self.textbox4.get();
-    Descriptions = self.textbox5.get();
-    Others = self.textbox6.get();
+    CompanyName = self.Company_Name_Text_Box.get();
+    Roles = self.Roles_Text_Box.get();
+    DateApplied = self.Date_Applied_Text_Box.get();
+    JobBoard = self.Job_Board_Text.get();
+    Descriptions = self.Description_Text_Box.get();
+    Others = self.Others_Text_Box.get();
 
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
     mycursor.execute("commit")
