@@ -162,6 +162,7 @@ class Tabs(tk.Frame):
     JobBoard = self.Job_Board_Text.get();
     Descriptions = self.Description_Text_Box.get();
     Others = self.Others_Text_Box.get();
+    #If one or more box are missing before submitting
     if (CompanyName =="" or Roles =="" or DateApplied == "" ):
       messagebox.showinfo("status","Field Required are missing")
     else:
@@ -269,4 +270,3 @@ if __name__ == "__main__":
     #App = MainApplication(root)
     MainApplication(root).pack()
     root.mainloop() #Infinite Loop
-

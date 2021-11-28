@@ -1,6 +1,10 @@
 # Job Flow-App
 
+Job Flow, a Visual Software GUI that helps you organize all of your job details better.
+Easy to use, and it's free!
+
 **Updates**
+- All Data for Tab 1 & 2 are done, working on submission button commands (11/27/2021)
 - Finished the creation of both Tab & Menu, working on the commands & data (11/22/2021)
 - Adding in Menu Bar (11/19/2021)
 - Adding in Labels + Textboxes in all Tabs (11/12/2021) 
