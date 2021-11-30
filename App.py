@@ -24,6 +24,8 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs1, text ="Main Record")
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
+   
+    #Top, Middle, Mid-Bottom & Bottom Frame for Tab 2
     self.Tabs1() #Calling in the function of the First Tab layer top
     self.Tabs2() #Calling in the function of the Second Tab
     #DropDown Menu & it's fetching Data from the database
@@ -60,16 +62,16 @@ class Tabs(tk.Frame):
     datelist = StringVar();
     jobboardlist = StringVar();
     Descriptionlist = StringVar();
-    otherlist = StringVar() ;  
-    #Top, Middle, Mid-Bottom, & Bottom Frame
+    otherlist = StringVar();  
+    #Top, Middle, Mid-Bottom, & Bottom Frame for Tab 1
     self.topframe = Frame(self.tabs1)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))  
     self.middleframe = Frame(self.tabs1)
-    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
     self.mbtmFrame = Frame(self.tabs1)
-    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe = Frame(self.tabs1)
-    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)      
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))  
+    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
+    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
+    self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)  
     #Combox DropDown to select Company's Name Only
     selected_Company_Name = tk.StringVar()
     CompanyName_cb = ttk.Combobox(self.topframe, textvariable = selected_Company_Name, state = 'readonly')
@@ -92,8 +94,9 @@ class Tabs(tk.Frame):
     Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
+    self.switchButton = Switch_View_List(self.parent)
     #All Buttons
-    Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.NavigateinList)
+    Buttons1 = Button(self.middleframe, text = "Switch to List", command = NONE)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
     #All Widgets Layout Management
     Idlabel.pack(side = LEFT, fill =X)
@@ -113,14 +116,13 @@ class Tabs(tk.Frame):
     Others_Label.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
     Others_Text_Box.pack(fill= BOTH, expand=TRUE)   
   def Tabs2(self):
-    #Top, Middle, Mid-Bottom, Bottom Frame for Tab 2
     self.topframe = Frame(self.tabs2)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     self.middleframe = Frame(self.tabs2)
-    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
     self.mbtmFrame = Frame(self.tabs2)
-    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe = Frame(self.tabs2)
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
+    self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
+    self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #All Labels for each content
     self.Company_Name_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
@@ -245,6 +247,12 @@ class Switch_View_List(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
     tk.Frame.__init__(self, self.parent)
+    #Database 
+    Select_CompanyName_Sql = "select CompanyName from flowing"
+    mycursor.execute(Select_CompanyName_Sql)
+    Lists = mycursor.fetchall()
+   #for i in Lists:
+      #self.lists.insert(1, str(i)) 
 class MainApplication(tk.Frame):
   #Initializing the start of the Window
   def __init__(self, parent):
