@@ -1,14 +1,12 @@
 from tkinter import *
-from tkinter import ttk #Getting Tabs from this library
 import tkinter as tk
+from tkinter import ttk #Getting Tabs from this library
 from tkinter import messagebox
 from typing import List
 import mysql.connector
-
 #Connected to an existing database
 mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
 mycursor = mydb.cursor()
-
 class Tabs(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -24,7 +22,6 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs1, text ="Main Record")
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
-   
     #Top, Middle, Mid-Bottom & Bottom Frame for Tab 2
     self.Tabs1() #Calling in the function of the First Tab layer top
     self.Tabs2() #Calling in the function of the Second Tab
@@ -34,6 +31,7 @@ class Tabs(tk.Frame):
     #self.Dropdown = OptionMenu(self.topframe, value_inside, *CompanyNameList) # the *variable means to align them in vertical, without it, it would be in vertical
     #self.Dropdown.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
   def Tabs1(self):
+    self.destroy_all_windows()
     #MYSQL function for ComboBox
     Select_CompanyName_Sql = "select id, CompanyName from flowing"
     mycursor.execute(Select_CompanyName_Sql)
@@ -94,9 +92,8 @@ class Tabs(tk.Frame):
     Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
-    self.switchButton = Switch_View_List(self.parent)
     #All Buttons
-    Buttons1 = Button(self.middleframe, text = "Switch to List", command = NONE)
+    Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
     #All Widgets Layout Management
     Idlabel.pack(side = LEFT, fill =X)
@@ -193,16 +190,38 @@ class Tabs(tk.Frame):
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
     mycursor.execute("commit")
     mydb.close()
-  def NavigateinList(self):
-    #Combobox 
-    self.list = Listbox(self.topframe,width = 40, height = 10, selectmode=MULTIPLE)
+  def Switch_View(self):
+    self.destroy_all_windows()
+    #Top Frame
+    self.topframe = Frame(self.tabs1)
+    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
+    #Viewing in list box 
+    self.list = Listbox(self.topframe, width = 40, height = 10, selectmode=MULTIPLE)
     self.list.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
+    #button to switch back to default viewing
+    Buttons1 = Button(self.topframe, text = "Switch to Default View", command = self.Tabs1)
+    Buttons1.pack(side = RIGHT, fill= NONE)
     #Database 
     Select_CompanyName_Sql = "select CompanyName from flowing"
     mycursor.execute(Select_CompanyName_Sql)
     Lists = mycursor.fetchall()
     for i in Lists:
-      self.combobox.insert(1, str(i)) 
+      self.list.insert(1, str(i)) 
+
+  def destroy_all_windows(self):
+    #Destroying previous View of Tabs
+    self.tabs1.destroy()
+    self.tabs2.destroy()
+    #Recreating Tab 1 to List View
+    self.tabs1 = ttk.Frame(self.tabControl)
+    self.tabControl.add(self.tabs1, text ="Main Record")
+    #Recreate Tab 2 to keep the pattern of Tab 1 and 2 in sequential order
+    self.tabs2 = ttk.Frame(self.tabControl)
+    self.tabControl.add(self.tabs2, text ="Add New Record")
+    self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
+    #always consistenally calling in function Tabs2
+    self.Tabs2()
+
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -243,16 +262,6 @@ class menuBar(tk.Frame):
     help_menu.add_command(label ="About", command=NONE) 
     help_menu.add_command(label ="Help")
     self.menubar.add_cascade(label ="Help", menu=help_menu) 
-class Switch_View_List(tk.Frame):
-  def __init__(self, parent):
-    self.parent = parent
-    tk.Frame.__init__(self, self.parent)
-    #Database 
-    Select_CompanyName_Sql = "select CompanyName from flowing"
-    mycursor.execute(Select_CompanyName_Sql)
-    Lists = mycursor.fetchall()
-   #for i in Lists:
-      #self.lists.insert(1, str(i)) 
 class MainApplication(tk.Frame):
   #Initializing the start of the Window
   def __init__(self, parent):
