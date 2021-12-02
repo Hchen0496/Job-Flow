@@ -22,9 +22,8 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs1, text ="Main Record")
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
-    #Top, Middle, Mid-Bottom & Bottom Frame for Tab 2
+    #Tab 1 will always be the default Tab
     self.Tabs1() #Calling in the function of the First Tab layer top
-    self.Tabs2() #Calling in the function of the Second Tab
     #DropDown Menu & it's fetching Data from the database
     #value_inside = tk.StringVar(self) #default values starting point
     #value_inside.set("Select Job")
@@ -77,7 +76,7 @@ class Tabs(tk.Frame):
     CompanyName_cb.pack(side = LEFT,anchor = N,expand = FALSE, fill=X) 
     CompanyName_cb.bind("<<ComboboxSelected>>", lookupJobs)
     #All Labels 
-    Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10),padx=5)
+    Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10))
     CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
     Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
     Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
@@ -95,7 +94,10 @@ class Tabs(tk.Frame):
     #All Buttons
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
+    gif_image = PhotoImage(file = './Images/Icon_Refresh.gif')
+    Buttons3 = Button(self.topframe, text = "Refresh", image = gif_image, height= 15, width = 15)
     #All Widgets Layout Management
+    Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
     id_Text.pack(side = LEFT, fill =X)
     CompanyName_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
@@ -186,7 +188,6 @@ class Tabs(tk.Frame):
     JobBoard = self.Job_Board_Text.get();
     Descriptions = self.Description_Text_Box.get();
     Others = self.Others_Text_Box.get();
-
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
     mycursor.execute("commit")
     mydb.close()
@@ -205,9 +206,11 @@ class Tabs(tk.Frame):
     Select_CompanyName_Sql = "select CompanyName from flowing"
     mycursor.execute(Select_CompanyName_Sql)
     Lists = mycursor.fetchall()
+    All_values = []
     for i in Lists:
-      self.list.insert(1, str(i)) 
-
+      All_values.append(str(i[0]) + ". " + str(i[1]))
+    for i in All_values:
+      self.list.insert(str(i[0]) + " | " + i) 
   def destroy_all_windows(self):
     #Destroying previous View of Tabs
     self.tabs1.destroy()
@@ -218,10 +221,8 @@ class Tabs(tk.Frame):
     #Recreate Tab 2 to keep the pattern of Tab 1 and 2 in sequential order
     self.tabs2 = ttk.Frame(self.tabControl)
     self.tabControl.add(self.tabs2, text ="Add New Record")
-    self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)
-    #always consistenally calling in function Tabs2
+    self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)  
     self.Tabs2()
-
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -268,8 +269,7 @@ class MainApplication(tk.Frame):
     self.parent = parent
     tk.Frame.__init__(self, self.parent)
     self.configure_Gui()
-    self.Widgets()
-        
+    self.Widgets()   
   #Windows
   def configure_Gui(self):
     self.parent.title("Job Flow") #Window Name
