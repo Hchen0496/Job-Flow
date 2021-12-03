@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk #Getting Tabs from this library
 from tkinter import messagebox
 from typing import List
+from PIL import Image, ImageTk, ImageSequence
 import mysql.connector
 #Connected to an existing database
 mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
@@ -52,7 +53,7 @@ class Tabs(tk.Frame):
         jobboardlist.set(i[4])
         Descriptionlist.set(i[5])
         otherlist.set(i[6]) 
-    #Initalizing all textvariable as StringVar for MYSQL to read Data and display the data
+    #Initalizing all textvariable as StringVar for MYSQL to read Data
     idlist = StringVar(); 
     companynamelist = StringVar();
     rolelist = StringVar();
@@ -91,11 +92,18 @@ class Tabs(tk.Frame):
     Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
+    
     #All Buttons
+    canvas = Canvas(self, width=100, height=100)
+    canvas.pack()
+    file = tk.PhotoImage("./Images/Icon_Refresh.gif")
+    canvas.create_image(250, 0, image=file)
+
+
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    gif_image = PhotoImage(file = './Images/Icon_Refresh.gif')
-    Buttons3 = Button(self.topframe, text = "Refresh", image = gif_image, height= 15, width = 15)
+    Buttons3 = Button(self.topframe, text = "Refresh", image = file, height= 15, width = 15)
+
     #All Widgets Layout Management
     Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
@@ -223,6 +231,7 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)  
     self.Tabs2()
+
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -277,6 +286,7 @@ class MainApplication(tk.Frame):
     #self.parent.maxsize(900,720)
     self.parent.minsize(900,720)
     #self.config(bg = "#add8e6")
+
   
   def Widgets(self):
     self.MenuBar = menuBar(self.parent)
