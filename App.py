@@ -70,7 +70,7 @@ class Tabs(tk.Frame):
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)  
-    #Combox DropDown to select Company's Name Only
+    #Combo box DropDown to select Company's Name Only
     selected_Company_Name = tk.StringVar()
     CompanyName_cb = ttk.Combobox(self.topframe, textvariable = selected_Company_Name, state = 'readonly')
     CompanyName_cb['values'] = CompanyNameList
@@ -92,7 +92,6 @@ class Tabs(tk.Frame):
     Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
-    
     #All Buttons
     canvas = Canvas(self, width=100, height=100)
     canvas.pack()
@@ -100,7 +99,7 @@ class Tabs(tk.Frame):
     canvas.create_image(250, 0, image=file)
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    Buttons3 = Button(self.topframe, text = "Refresh", image = file, height= 15, width = 15)
+    Buttons3 = Button(self.topframe, text = "Refresh", height= 15, width = 15)
     #All Widgets Layout Management
     Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
@@ -185,17 +184,16 @@ class Tabs(tk.Frame):
       self.Job_Board_Text.delete(0, END)
       self.Description_Text_Box.delete(0, END)
       self.Others_Text_Box.delete(0, END)
-  def Update(self):
+  def Refresh(self):
     #Database purposes
-    CompanyName = self.Company_Name_Text_Box.get();
-    Roles = self.Roles_Text_Box.get();
-    DateApplied = self.Date_Applied_Text_Box.get();
-    JobBoard = self.Job_Board_Text.get();
-    Descriptions = self.Description_Text_Box.get();
-    Others = self.Others_Text_Box.get();
+    CompanyName = self.Company_Name_Text_Box
+    Roles = self.Roles_Text_Box
+    DateApplied = self.Date_Applied_Text_Box
+    JobBoard = self.Job_Board_Text
+    Descriptions = self.Description_Text_Box
+    Others = self.Others_Text_Box
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
     mycursor.execute("commit")
-    mydb.close()
   def Switch_View(self):
     self.destroy_all_windows()
     #Top Frame
@@ -219,9 +217,6 @@ class Tabs(tk.Frame):
     All_values = []
     for i in Lists:
       self.list.insert(0, i)
-     
-    #for i in All_values:
-      #self.list.insert("end",i[0]) 
   def destroy_all_windows(self):
     #Destroying previous View of Tabs
     self.tabs1.destroy()
