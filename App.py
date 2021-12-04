@@ -98,12 +98,9 @@ class Tabs(tk.Frame):
     canvas.pack()
     file = tk.PhotoImage("./Images/Icon_Refresh.gif")
     canvas.create_image(250, 0, image=file)
-
-
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
     Buttons3 = Button(self.topframe, text = "Refresh", image = file, height= 15, width = 15)
-
     #All Widgets Layout Management
     Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
@@ -203,22 +200,28 @@ class Tabs(tk.Frame):
     self.destroy_all_windows()
     #Top Frame
     self.topframe = Frame(self.tabs1)
-    self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))
+    self.topframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE, pady = (0,20))
     #Viewing in list box 
     self.list = Listbox(self.topframe, width = 40, height = 10, selectmode=MULTIPLE)
-    self.list.pack(side = LEFT,anchor = N,expand = FALSE, fill=X)
+    self.list.pack(side = LEFT,anchor = N,expand = True, fill=BOTH)
     #button to switch back to default viewing
     Buttons1 = Button(self.topframe, text = "Switch to Default View", command = self.Tabs1)
-    Buttons1.pack(side = RIGHT, fill= NONE)
+    Buttons1.pack(anchor = N,side = RIGHT, fill= NONE)
+    #Scroll bar vertical on Listbox
+    sb = Scrollbar(self.topframe, orient=VERTICAL)
+    sb.pack(side = RIGHT, fill = Y)
+    self.list.configure(yscrollcommand=sb.set)
+    sb.config(command = self.list.yview)
     #Database 
-    Select_CompanyName_Sql = "select CompanyName from flowing"
+    Select_CompanyName_Sql = "select * from flowing"
     mycursor.execute(Select_CompanyName_Sql)
     Lists = mycursor.fetchall()
     All_values = []
     for i in Lists:
-      All_values.append(str(i[0]) + ". " + str(i[1]))
-    for i in All_values:
-      self.list.insert(str(i[0]) + " | " + i) 
+      self.list.insert(0, i)
+     
+    #for i in All_values:
+      #self.list.insert("end",i[0]) 
   def destroy_all_windows(self):
     #Destroying previous View of Tabs
     self.tabs1.destroy()
