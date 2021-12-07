@@ -93,13 +93,13 @@ class Tabs(tk.Frame):
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
     #All Buttons
-    canvas = Canvas(self, width=100, height=100)
-    canvas.pack()
-    file = tk.PhotoImage("./Images/Icon_Refresh.gif")
-    canvas.create_image(250, 0, image=file)
+    #self.canvas = tk.Canvas(self, width=100, height=100)
+    #self.canvas.pack()
+    self.file = PhotoImage(file = "./Images/Icon_Refresher.png")
+    #self.canvas.create_image(250, 250, image=self.file)
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    Buttons3 = Button(self.topframe, text = "Refresh", height= 15, width = 15)
+    Buttons3 = Button(self.topframe, image = self.file, height= 15, width = 15, command = self.Refresh)
     #All Widgets Layout Management
     Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
@@ -186,14 +186,14 @@ class Tabs(tk.Frame):
       self.Others_Text_Box.delete(0, END)
   def Refresh(self):
     #Database purposes
-    CompanyName = self.Company_Name_Text_Box
-    Roles = self.Roles_Text_Box
-    DateApplied = self.Date_Applied_Text_Box
-    JobBoard = self.Job_Board_Text
-    Descriptions = self.Description_Text_Box
-    Others = self.Others_Text_Box
+    CompanyName = self.Company_Name_Text_Box.get()
+    Roles = self.Roles_Text_Box.get()
+    DateApplied = self.Date_Applied_Text_Box.get()
+    JobBoard = self.Job_Board_Text.get()
+    Descriptions = self.Description_Text_Box.get()
+    Others = self.Others_Text_Box.get()
     mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
-    mycursor.execute("commit")
+    
   def Switch_View(self):
     self.destroy_all_windows()
     #Top Frame
@@ -229,7 +229,6 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)  
     self.Tabs2()
-
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
