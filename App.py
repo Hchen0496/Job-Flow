@@ -117,7 +117,7 @@ class Tabs(tk.Frame):
     Description_Label.pack(anchor = N, side= LEFT, expand = FALSE, fill= NONE)
     Description_Text_Box.pack(fill= BOTH, expand=TRUE)
     Others_Label.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
-    Others_Text_Box.pack(fill= BOTH, expand=TRUE)   
+    Others_Text_Box.pack(fill= BOTH, expand=TRUE)
   def Tabs2(self):
     self.topframe = Frame(self.tabs2)
     self.middleframe = Frame(self.tabs2)
@@ -183,16 +183,14 @@ class Tabs(tk.Frame):
       self.Date_Applied_Text_Box.delete(0, END)
       self.Job_Board_Text.delete(0, END)
       self.Description_Text_Box.delete(0, END)
-      self.Others_Text_Box.delete(0, END)
+      self.Others_Text_Box.delete(0, END)   
   def Refresh(self):
-    #Database purposes
-    CompanyName = self.Company_Name_Text_Box.get()
-    Roles = self.Roles_Text_Box.get()
-    DateApplied = self.Date_Applied_Text_Box.get()
-    JobBoard = self.Job_Board_Text.get()
-    Descriptions = self.Description_Text_Box.get()
-    Others = self.Others_Text_Box.get()
-    mycursor.execute("update flowing set CompanyName='" + CompanyName +"', Roles='"+Roles+"', DateApplied = '"+DateApplied+"',JobBoard = '"+JobBoard+"', Descriptions = '"+Descriptions+"', Others = '"+Others+"'")
+    #Destroying current Tab to update newer records
+    self.tabs1.destroy()
+    #Recreating Tab 1 to List View
+    self.tabs1 = ttk.Frame(self.tabControl)
+    #self.tabControl.add(self.tabs1, text ="Main Record")
+    self.Tabs1()
     
   def Switch_View(self):
     self.destroy_all_windows()
