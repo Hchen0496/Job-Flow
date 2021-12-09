@@ -8,6 +8,7 @@ import mysql.connector
 #Connected to an existing database
 mydb = mysql.connector.connect(host="127.0.0.1", user="root", password="Redisforme24!", database="flow");
 mycursor = mydb.cursor()
+
 class Tabs(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
@@ -17,6 +18,7 @@ class Tabs(tk.Frame):
     self.style.theme_use('default')
     self.style.configure('TNotebook.Tab', background="#add8e6")
     self.style.map("TNotebook", background= [("selected", "red")])
+
     # initializing Tab 1 & 2 & it's layout
     self.tabs1 = ttk.Frame(self.tabControl)
     self.tabs2 = ttk.Frame(self.tabControl)
@@ -128,19 +130,19 @@ class Tabs(tk.Frame):
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #All Labels for each content
-    self.Company_Name_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    self.Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    self.Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
+    self.Company_Name_Label = Label(self.topframe, bd = 5, underline = 0, height = 1, width = 13, text = "*Company's Name:", font=("Latha", 10),padx=5)
+    self.Roles_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Position/Role:", font=("Latha", 10))
+    self.Date_Applied_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Date Applied:", font=("Latha", 10))
     self.Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
     self.Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
     self.Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
     #All Text/Entry Widgets for each content
-    self.Company_Name_Text_Box = Entry(self.topframe, width = 25)
-    self.Roles_Text_Box = Entry(self.topframe, width = 20)
-    self.Date_Applied_Text_Box = Entry(self.topframe, width = 20)
-    self.Job_Board_Text = Entry(self.middleframe, width = 15)
-    self.Description_Text_Box = Entry(self.mbtmFrame, width = 20)
-    self.Others_Text_Box = Entry(self.bottomframe, width = 20,)
+    self.Company_Name_Text_Box = Entry(self.topframe, width = 25, bd = 2)
+    self.Roles_Text_Box = Entry(self.topframe, width = 20, bd = 2)
+    self.Date_Applied_Text_Box = Entry(self.topframe, width = 20, bd = 2)
+    self.Job_Board_Text = Entry(self.middleframe, width = 15, bd = 2)
+    self.Description_Text_Box = Entry(self.mbtmFrame, width = 20, bd = 2)
+    self.Others_Text_Box = Entry(self.bottomframe, width = 20, bd = 2)
     #All Buttons
     self.Upload_Resume_Button = Button(self.middleframe, text="Upload Resume") #Upload Resume Button
     self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit) #Add/Submit New Record
@@ -183,15 +185,13 @@ class Tabs(tk.Frame):
       self.Date_Applied_Text_Box.delete(0, END)
       self.Job_Board_Text.delete(0, END)
       self.Description_Text_Box.delete(0, END)
-      self.Others_Text_Box.delete(0, END)   
+      self.Others_Text_Box.delete(0, END) 
+      #Refresh Tab1 for updated values 
+      self.after(1000, self.Tabs1)
   def Refresh(self):
+    Select_CompanyName_Sql = "select id from flowing"
     #Destroying current Tab to update newer records
-    self.tabs1.destroy()
-    #Recreating Tab 1 to List View
-    self.tabs1 = ttk.Frame(self.tabControl)
-    #self.tabControl.add(self.tabs1, text ="Main Record")
-    self.Tabs1()
-    
+    #mycursor.execute("delete from flowing where id = %s")
   def Switch_View(self):
     self.destroy_all_windows()
     #Top Frame
@@ -225,7 +225,7 @@ class Tabs(tk.Frame):
     #Recreate Tab 2 to keep the pattern of Tab 1 and 2 in sequential order
     self.tabs2 = ttk.Frame(self.tabControl)
     self.tabControl.add(self.tabs2, text ="Add New Record")
-    self.tabControl.pack(expand=True, fill = 'both',padx = 10, pady = 10)  
+    self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)  
     self.Tabs2()
 class menuBar(tk.Frame):
   def __init__(self, parent):
@@ -282,7 +282,6 @@ class MainApplication(tk.Frame):
     self.parent.minsize(900,720)
     #self.config(bg = "#add8e6")
 
-  
   def Widgets(self):
     self.MenuBar = menuBar(self.parent)
     self.TabControls = Tabs(self.parent)
