@@ -18,7 +18,6 @@ class Tabs(tk.Frame):
     self.style.theme_use('default')
     self.style.configure('TNotebook.Tab', background="#add8e6")
     self.style.map("TNotebook", background= [("selected", "red")])
-
     # initializing Tab 1 & 2 & it's layout
     self.tabs1 = ttk.Frame(self.tabControl)
     self.tabs2 = ttk.Frame(self.tabControl)
@@ -64,10 +63,10 @@ class Tabs(tk.Frame):
     Descriptionlist = StringVar();
     otherlist = StringVar();  
     #Top, Middle, Mid-Bottom, & Bottom Frame for Tab 1
-    self.topframe = Frame(self.tabs1)
-    self.middleframe = Frame(self.tabs1)
-    self.mbtmFrame = Frame(self.tabs1)
-    self.bottomframe = Frame(self.tabs1)
+    self.topframe = Frame(self.tabs1, bg = "#CBC3E3")
+    self.middleframe = Frame(self.tabs1, bg = "#CBC3E3")
+    self.mbtmFrame = Frame(self.tabs1, bg = "#CBC3E3")
+    self.bottomframe = Frame(self.tabs1, bg = "#CBC3E3")
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20))  
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
@@ -79,13 +78,13 @@ class Tabs(tk.Frame):
     CompanyName_cb.pack(side = LEFT,anchor = N,expand = FALSE, fill=X) 
     CompanyName_cb.bind("<<ComboboxSelected>>", lookupJobs)
     #All Labels 
-    Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10))
-    CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5)
-    Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10))
-    Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10))
-    Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10))
-    Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    Idlabel = Label(self.topframe, height = 1, width = 5, text = " ID:", font=("Latha", 10), bg = "#CBC3E3")
+    CompanyName_Label = Label(self.topframe, height = 1, width = 13, text = " Company's Name:", font=("Latha", 10),padx=5,bg = "#CBC3E3")
+    Roles_Label = Label(self.topframe, height = 1, width = 10, text = "Position/Role:", font=("Latha", 10),bg = "#CBC3E3")
+    Date_Applied_Label = Label(self.topframe, height = 1, width = 10, text = "Date Applied:", font=("Latha", 10),bg = "#CBC3E3")
+    Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board:", font=("Latha", 10),bg = "#CBC3E3")
+    Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10),bg = "#CBC3E3")
+    Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10),bg = "#CBC3E3")
     #All Entry box for each content
     id_Text = Entry(self.topframe, width = 5, textvariable=idlist)
     CompanyName_Text_Box = Entry(self.topframe, width = 25, textvariable=companynamelist)
@@ -95,15 +94,9 @@ class Tabs(tk.Frame):
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
     #All Buttons
-    #self.canvas = tk.Canvas(self, width=100, height=100)
-    #self.canvas.pack()
-    self.file = PhotoImage(file = "./Images/Icon_Refresher.png")
-    #self.canvas.create_image(250, 250, image=self.file)
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
     Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
-    Buttons3 = Button(self.topframe, image = self.file, height= 15, width = 15, command = self.Refresh)
     #All Widgets Layout Management
-    Buttons3.pack(side = LEFT, fill= NONE)
     Idlabel.pack(side = LEFT, fill =X)
     id_Text.pack(side = LEFT, fill =X)
     CompanyName_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
@@ -121,28 +114,28 @@ class Tabs(tk.Frame):
     Others_Label.pack(anchor = N,side = LEFT,  expand = FALSE, fill= NONE)
     Others_Text_Box.pack(fill= BOTH, expand=TRUE)
   def Tabs2(self):
-    self.topframe = Frame(self.tabs2)
-    self.middleframe = Frame(self.tabs2)
-    self.mbtmFrame = Frame(self.tabs2)
-    self.bottomframe = Frame(self.tabs2)
+    self.topframe = Frame(self.tabs2, bg = "#CBC3E3")
+    self.middleframe = Frame(self.tabs2, bg = "#CBC3E3")
+    self.mbtmFrame = Frame(self.tabs2, bg = "#CBC3E3")
+    self.bottomframe = Frame(self.tabs2, bg = "#CBC3E3")
     self.topframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
     self.middleframe.pack(anchor = N,side=TOP,fill=X,expand=FALSE, pady = (0,20)) 
     self.mbtmFrame.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE,pady=(0,20))
     self.bottomframe.pack(anchor = N,side=TOP,fill=BOTH,expand=TRUE)
     #All Labels for each content
-    self.Company_Name_Label = Label(self.topframe, bd = 5, underline = 0, height = 1, width = 13, text = "*Company's Name:", font=("Latha", 10),padx=5)
-    self.Roles_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Position/Role:", font=("Latha", 10))
-    self.Date_Applied_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Date Applied:", font=("Latha", 10))
-    self.Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10))
-    self.Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10))
-    self.Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10))
+    self.Company_Name_Label = Label(self.topframe, bd = 5, underline = 0, height = 1, width = 13, text = "*Company's Name:", font=("Latha", 10),padx=5, bg = "#CBC3E3")
+    self.Roles_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Position/Role:", font=("Latha", 10), bg = "#CBC3E3")
+    self.Date_Applied_Label = Label(self.topframe, underline = 0, height = 1, width = 10, text = "*Date Applied:", font=("Latha", 10), bg = "#CBC3E3")
+    self.Job_Board_Label = Label(self.middleframe, height = 1, width = 10, text = "Job Board: ", font=("Latha", 10), bg = "#CBC3E3")
+    self.Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10), bg = "#CBC3E3")
+    self.Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10), bg = "#CBC3E3")
     #All Text/Entry Widgets for each content
-    self.Company_Name_Text_Box = Entry(self.topframe, width = 25, bd = 2)
-    self.Roles_Text_Box = Entry(self.topframe, width = 20, bd = 2)
-    self.Date_Applied_Text_Box = Entry(self.topframe, width = 20, bd = 2)
-    self.Job_Board_Text = Entry(self.middleframe, width = 15, bd = 2)
-    self.Description_Text_Box = Entry(self.mbtmFrame, width = 20, bd = 2)
-    self.Others_Text_Box = Entry(self.bottomframe, width = 20, bd = 2)
+    self.Company_Name_Text_Box = Entry(self.topframe, width = 20, bd = 3)
+    self.Roles_Text_Box = Entry(self.topframe, width = 20, bd = 3)
+    self.Date_Applied_Text_Box = Entry(self.topframe, width = 20, bd = 3)
+    self.Job_Board_Text = Entry(self.middleframe, width = 15, bd = 3)
+    self.Description_Text_Box = Entry(self.mbtmFrame, width = 20, bd = 3)
+    self.Others_Text_Box = Entry(self.bottomframe, width = 20, bd = 3)
     #All Buttons
     self.Upload_Resume_Button = Button(self.middleframe, text="Upload Resume") #Upload Resume Button
     self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit) #Add/Submit New Record
@@ -188,10 +181,6 @@ class Tabs(tk.Frame):
       self.Others_Text_Box.delete(0, END) 
       #Refresh Tab1 for updated values 
       self.after(1000, self.Tabs1)
-  def Refresh(self):
-    Select_CompanyName_Sql = "select id from flowing"
-    #Destroying current Tab to update newer records
-    #mycursor.execute("delete from flowing where id = %s")
   def Switch_View(self):
     self.destroy_all_windows()
     #Top Frame
