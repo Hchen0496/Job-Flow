@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk #Getting Tabs from this library
 from tkinter import messagebox
+from tkinter.filedialog import askopenfile
 from typing import List
 from PIL import Image, ImageTk, ImageSequence
 import mysql.connector
@@ -94,8 +95,9 @@ class Tabs(tk.Frame):
     Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
     Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
     #All Buttons
+    Button2_Image = tk.PhotoImage(file ='./Images/Download.png')
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
-    Buttons2 = Button(self.middleframe, text = "Download Uploaded Resume")
+    Buttons2 = Button(self.middleframe, text = "Download Resume", image = Button2_Image, command = None)
     #All Widgets Layout Management
     Idlabel.pack(side = LEFT, fill =X)
     id_Text.pack(side = LEFT, fill =X)
@@ -137,7 +139,7 @@ class Tabs(tk.Frame):
     self.Description_Text_Box = Entry(self.mbtmFrame, width = 20, bd = 3)
     self.Others_Text_Box = Entry(self.bottomframe, width = 20, bd = 3)
     #All Buttons
-    self.Upload_Resume_Button = Button(self.middleframe, text="Upload Resume") #Upload Resume Button
+    self.Upload_Resume_Button = Button(self.middleframe, text="Upload Resume", command = self.Upload) #Upload Resume Button
     self.Button1 = Button(self.bottomframe, text = "Add New Record", command=self.Submit) #Add/Submit New Record
     #All widgets Layout Management
     self.Company_Name_Label.pack(side = LEFT,expand = FALSE, fill= NONE)
@@ -216,6 +218,11 @@ class Tabs(tk.Frame):
     self.tabControl.add(self.tabs2, text ="Add New Record")
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)  
     self.Tabs2()
+  def Upload(self):
+    file = askopenfile(mode ='r', filetypes =[('Word Document', '*.docx')])
+    if file is not None:
+        content = file.read()
+        print(content)
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
