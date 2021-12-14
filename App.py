@@ -219,10 +219,21 @@ class Tabs(tk.Frame):
     self.tabControl.pack(expand=True, fill = 'both', padx = 10, pady = 10)  
     self.Tabs2()
   def Upload(self):
-    file = askopenfile(mode ='r', filetypes =[('Word Document', '*.docx')])
+    #Upload button command
+    file = askopenfile(mode ='r', filetypes =[('All Files', '*.*')])
+    data=(file)
     if file is not None:
-        content = file.read()
-        print(content)
+      mycursor.execute("insert into flowing(Resume) values(%s,%s,%s)",data)
+      content = file.read()
+      print(content)
+      mycursor.execute("commit")
+      mydb.close()
+    else:
+      print("Cancelled")
+  #def add_document(self):
+
+  #def downloaded(self):
+    #download button command
 class menuBar(tk.Frame):
   def __init__(self, parent):
     self.parent = parent
