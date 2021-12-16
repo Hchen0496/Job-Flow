@@ -87,13 +87,13 @@ class Tabs(tk.Frame):
     Description_Label = Label(self.mbtmFrame, height = 1, width = 12, text = "Description: ", font=("Latha", 10),bg = "#CBC3E3")
     Others_Label = Label(self.bottomframe, height = 1, width = 12, text = "Others: ", font=("Latha", 10),bg = "#CBC3E3")
     #All Entry box for each content
-    id_Text = Entry(self.topframe, width = 5, textvariable=idlist)
-    CompanyName_Text_Box = Entry(self.topframe, width = 25, textvariable=companynamelist)
-    Roles_textbox = Entry(self.topframe, width = 20, textvariable=rolelist)
-    Date_Applied_Text_Box = Entry(self.topframe, width = 20, textvariable=datelist)
-    Job_Board_Text_Box = Entry(self.middleframe, width = 15, textvariable=jobboardlist)
-    Description_Text_Box = Entry(self.mbtmFrame, width = 20, justify= LEFT, textvariable = Descriptionlist)
-    Others_Text_Box = Entry(self.bottomframe, width = 20, textvariable = otherlist)
+    id_Text = Entry(self.topframe, width = 5, bd = 5, textvariable=idlist)
+    CompanyName_Text_Box = Entry(self.topframe, bd = 5, width = 25, textvariable=companynamelist)
+    Roles_textbox = Entry(self.topframe, bd = 5, width = 20, textvariable=rolelist)
+    Date_Applied_Text_Box = Entry(self.topframe, bd = 5, width = 20, textvariable=datelist)
+    Job_Board_Text_Box = Entry(self.middleframe, bd = 5, width = 15, textvariable=jobboardlist)
+    Description_Text_Box = Entry(self.mbtmFrame, bd = 5, width = 20, justify= LEFT, textvariable = Descriptionlist)
+    Others_Text_Box = Entry(self.bottomframe, bd = 5, width = 20, textvariable = otherlist)
     #All Buttons
     Button2_Image = tk.PhotoImage(file ='./Images/Download.png')
     Buttons1 = Button(self.middleframe, text = "Switch to List", command = self.Switch_View)
@@ -231,7 +231,6 @@ class Tabs(tk.Frame):
     else:
       print("Cancelled")
   #def add_document(self):
-
   #def downloaded(self):
     #download button command
 class menuBar(tk.Frame):
