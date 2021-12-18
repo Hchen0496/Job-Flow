@@ -4,6 +4,7 @@ Job Flow, a Visual Software GUI that helps you organize all of your job details 
 Easy to use, and it's free!
 
 **Updates**
+- Will be on halt for a while, working on another project (12/17/2021)
 - Will be working on Menu soon (12/16/2021)
 - Commands to the upload & Download Button (12/10/2021)
 - Styling all Tabs (12/08/2021)
